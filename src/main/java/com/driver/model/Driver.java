@@ -12,8 +12,7 @@ public class Driver {
     private String mobNo;
     private String password;
 
-    @OneToOne
-    @JoinColumn
+    @OneToOne(mappedBy = "dvr",cascade = CascadeType.ALL)
     Cab cab;
 
     @OneToMany(mappedBy = "driver",cascade = CascadeType.ALL)

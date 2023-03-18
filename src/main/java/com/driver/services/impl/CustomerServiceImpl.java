@@ -52,7 +52,9 @@ public class CustomerServiceImpl implements CustomerService {
 		drivers = driverRepository2.findAll();
 
 		for(Driver driver:drivers){
+
 			if(cabRepository.findByDriverId(driver.getDriverId()).isAvailable()){
+
 				bookedTrip = new TripBooking();
 				bookedTrip.setFromLocation(fromLocation);
 				bookedTrip.setToLocation(toLocation);

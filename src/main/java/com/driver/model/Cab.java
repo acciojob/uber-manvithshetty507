@@ -3,6 +3,7 @@ package com.driver.model;
 import javax.persistence.*;
 
 @Entity
+@Table(name ="cab")
 public class Cab {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,8 +45,11 @@ public class Cab {
         this.available = available;
     }
 
-    @OneToOne(mappedBy = "cab",cascade = CascadeType.ALL)
-    Driver driver;
+    @OneToOne
+    @JoinColumn
+    Driver dvr;
 
-
+    public void setDriver(Driver dvr) {
+        this.dvr = dvr;
+    }
 }
