@@ -23,15 +23,15 @@ public class Admin {
         this.password = password;
     }
 
-    public int getId() {
+    public int getAdminId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setAdminId(int id) {
         this.id = id;
     }
 
-    public String getUserName() {
+    public String getUsername() {
         return userName;
     }
 

@@ -36,7 +36,7 @@ public class Cab {
         this.perKmRate = perKmRate;
     }
 
-    public boolean isAvailable() {
+    public boolean getAvailable() {
 
         return available;
     }
@@ -51,5 +51,9 @@ public class Cab {
 
     public void setDriver(Driver dvr) {
         this.dvr = dvr;
+    }
+
+    public Driver getDriver(){
+        return dvr;
     }
 }

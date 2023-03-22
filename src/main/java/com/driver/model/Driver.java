@@ -38,11 +38,11 @@ public class Driver {
         this.driverId = driverId;
     }
 
-    public String getMobNo() {
+    public String getMobile() {
         return mobNo;
     }
 
-    public void setMobNo(String mobNo) {
+    public void setMobile(String mobNo) {
         this.mobNo = mobNo;
     }
 
@@ -62,11 +62,11 @@ public class Driver {
         this.cab = cab;
     }
 
-    public List<TripBooking> getTrips() {
+    public List<TripBooking> getTripBookings() {
         return trips;
     }
 
-    public void setTrips(List<TripBooking> trips) {
+    public void setTripBookings(List<TripBooking> trips) {
         this.trips = trips;
     }
 }
