@@ -16,13 +16,18 @@ public class CustomerController {
 	@Autowired
 	CustomerService customerService;
 	@PostMapping("/register")
-	public ResponseEntity<Void> registerCustomer(@RequestBody Customer customer){
-		customerService.register(customer);
-		return new ResponseEntity<>(HttpStatus.OK);
+	public ResponseEntity<String> registerCustomer(@RequestBody Customer customer){
+		try {
+			customerService.register(customer);
+		}catch(Exception e){
+			return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_IMPLEMENTED);
+		}
+		return new ResponseEntity<>("success",HttpStatus.OK);
 	}
 
+
 	@DeleteMapping("/delete")
-	public void deleteCustomer(@RequestParam Integer customerId){
+	public void deleteCustomer(@RequestParam int customerId){
 		customerService.deleteCustomer(customerId);
 	}
 
