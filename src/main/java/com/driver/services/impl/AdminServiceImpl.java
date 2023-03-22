@@ -44,23 +44,21 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public void deleteAdmin(int adminId){
 		// Delete admin without using deleteById function
-		adminRepository1.deleteById(adminId);
+
+		Admin admin = adminRepository1.findById(adminId).get();
+		adminRepository1.delete(admin);
 	}
 
 	@Override
 	public List<Driver> getListOfDrivers() {
 		//Find the list of all drivers
-		List<Driver> drivers = new ArrayList<>();
-		drivers = driverRepository1.findAll();
-		return drivers;
+		return driverRepository1.findAll();
 	}
 
 	@Override
 	public List<Customer> getListOfCustomers() {
 		//Find the list of all customers
-		List<Customer> customers = new ArrayList<>();
-		customers = customerRepository1.findAll();
-		return customers;
+		return customerRepository1.findAll();
 	}
 
 }

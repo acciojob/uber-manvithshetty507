@@ -36,7 +36,8 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public void deleteCustomer(Integer customerId) {
 		// Delete customer without using deleteById function
-		customerRepository2.deleteById(customerId);
+		Customer customer = customerRepository2.findById(customerId).get();
+		customerRepository2.delete(customer);
 	}
 
 	@Override
@@ -44,27 +45,41 @@ public class CustomerServiceImpl implements CustomerService {
 		//Book the driver with lowest driverId who is free (cab available variable is Boolean.TRUE). If no driver is available, throw "No cab available!" exception
 		//Avoid using SQL query
 
-		TripBooking bookedTrip = new TripBooking();
+		TripBooking tripBooking = new TripBooking();
 
 		List<Driver> drivers = driverRepository2.findAll();
 
-		for(Driver driver:drivers){
+		Driver tripDriver = null;
 
-			if(driver.getCab().getAvailable()){
-
-				bookedTrip.setFromLocation(fromLocation);
-				bookedTrip.setToLocation(toLocation);
-				bookedTrip.setDistanceInKm(distanceInKm);
-				bookedTrip.setStatus(TripStatus.CONFIRMED);
-				bookedTrip.setCustomer(customerRepository2.findById(customerId).get());
-				bookedTrip.setDriver(driver);
-
-				driverRepository2.save(driver);
+		for(Driver driver: drivers){
+			if(driver.getCab().getAvailable()== Boolean.TRUE){
+				if( (tripDriver==null) || (tripDriver.getDriverId()>driver.getDriverId())){
+					tripDriver = driver;
+				}
 			}
 		}
+		if(tripDriver == null){
+			throw new Exception("No cab available!");
+		}
+		Customer customer = customerRepository2.findById(customerId).get();
+		tripBooking.setFromLocation(fromLocation);
+		tripBooking.setToLocation(toLocation);
+		tripBooking.setDistanceInKm(distanceInKm);
+		tripBooking.setBill(distanceInKm*10);
+		tripBooking.setCustomer(customer);
+		tripBooking.setDriver(tripDriver);
+		tripDriver.getCab().setAvailable(Boolean.FALSE);
+		tripBooking.setStatus(TripStatus.CONFIRMED);
 
+		List<TripBooking> customerBookings = customer.getTripBookingList();
+		customerBookings.add(tripBooking);
 
-		throw new Exception("No cab available!");
+		List<TripBooking> driverBookings = tripDriver.getTripBookings();
+		driverBookings.add(tripBooking);
+
+		customerRepository2.save(customer);
+		driverRepository2.save(tripDriver);
+		return tripBooking;
 	}
 
 	@Override
